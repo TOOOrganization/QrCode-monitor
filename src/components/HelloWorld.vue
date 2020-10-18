@@ -1,13 +1,19 @@
 <template>
-  <UpLoadPic size="200px"
-             skin="gradient"
-             shape="round"
-             base-color="rgba(0, 0, 0, 1)"
-             status="default"
-             :error="this.error"
-             :gradient="this.gradient"
-             :data="this.QRCodeData">
-  </UpLoadPic>
+  <div>
+    <el-button type="primary" @click="refresh" :disabled="buttonShow" style="margin-top: 100px">刷新</el-button>
+    <UpLoadPic size="200px"
+               skin="gradient"
+               shape="round"
+               base-color="rgba(0, 0, 0, 1)"
+               status="default"
+               ref="UpLoadPic"
+               v-if="show"
+               :error="error"
+               :gradient="gradient"
+               :data="QRCodeData">
+    </UpLoadPic>
+  </div>
+
 </template>
 
 <script>
@@ -16,6 +22,9 @@ export default {
   data(){
     return{
       QRCodeData:'',
+      buttonShow:false,
+      show:true,
+      button:'生成二维码',
       gradient: {
         direction: 5,
         colorMap: [
@@ -29,34 +38,41 @@ export default {
       },
       }
     },
-  created : function () {
-    console.log(123)
-    this.refresh();
-    console.log(456)
+  mounted : function () {
+    this.refresh()
   },
   methods: {
     refresh() {
-      this.$axios
-        .get('/QRcode/photo_id').then(resp => {
-        if (resp && resp.data.status === 200) {
-          this.$message({
-            showClose: true,
-            message: resp.data.msg,
-            type: 'success'
-          })
-          this.QRCodeData = resp.data.data
-        } else {
-          console.log(resp.data.result)
-          this.$message({
-            showClose: true,
-            message: '刷新失败',
-            type: 'error'
-          })
-          this.QRCodeData = ''
-        }
+      this.show = false
+      this.$nextTick(()=>{
+        this.$axios
+          .get('/QRcode/photo').then(resp => {
+          if (resp && resp.data.status === 200) {
+            this.$notify({
+              title: '成功',
+              message: resp.data.msg,
+              type: 'success'
+            });
+            this.QRCodeData = resp.data.data
+            this.show = true
+            console.log(resp.data.data)
+          } else {
+            console.log(resp.data.result)
+            this.$notify.error({
+              title: '错误',
+              message: '刷新失败'
+            });
+          }
+        })
+        let _this = this
+        setTimeout( function () {
+          _this.buttonShow=false;
+        },2000)
+        this.buttonShow = true
       })
     }
-  }
+    }
+
 }
 </script>
 

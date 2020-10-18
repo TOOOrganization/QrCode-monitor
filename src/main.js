@@ -25,6 +25,7 @@ Vue.prototype.qs=qs
 import UploadPic from 'UploadCompoents'
 Vue.use(UploadPic)
 
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
