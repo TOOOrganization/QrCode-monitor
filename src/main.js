@@ -6,6 +6,22 @@ import router from './router'
 
 Vue.config.productionTip = false
 
+// 引入 element-ui
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+Vue.use(ElementUI);
+
+// 引入 axios
+// 设置反向代理，前端请求默认发送到 http://localhost:8088
+import axios from 'axios'
+Vue.prototype.axios = axios
+//axios.defaults.baseURL = 'http://39.107.227.30:8088'
+axios.defaults.baseURL = 'http://localhost:8088'
+Vue.prototype.$axios = axios
+
+// 引入 qs
+import qs from 'qs'
+Vue.prototype.qs=qs
 
 import UploadPic from 'UploadCompoents'
 Vue.use(UploadPic)
