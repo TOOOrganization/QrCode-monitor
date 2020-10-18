@@ -15,8 +15,7 @@ Vue.use(ElementUI);
 // 设置反向代理，前端请求默认发送到 http://localhost:8088
 import axios from 'axios'
 Vue.prototype.axios = axios
-//axios.defaults.baseURL = 'http://39.107.227.30:8088'
-axios.defaults.baseURL = 'http://localhost:8088'
+axios.defaults.baseURL = 'http://211.87.232.163:18888'
 Vue.prototype.$axios = axios
 
 // 引入 qs
