@@ -46,7 +46,7 @@ export default {
       this.show = false
       this.$nextTick(()=>{
         this.$axios
-          .get('/QRcode/photo').then(resp => {
+          .get('/QRCode/photo').then(resp => {
           if (resp && resp.data.status === 200) {
             this.$notify({
               title: '成功',
